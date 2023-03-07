@@ -1,9 +1,8 @@
 // @ts-check
 import Todo from '../model/todo';
+import ITodo from '../model/ITodo';
 
-const noTaskMessage = 'Nie masz żadnych zadań.\n Wpisz add <tresc zadania> aby dodać zadanie';
-
-const addTodo = async (uid: Number, taskId: Number, task: string) => {
+const addTodo = async (uid: number, taskId: number, task: string): Promise<void> => {
     const newTodo = new Todo({
         uid,
         taskId,
@@ -14,24 +13,27 @@ const addTodo = async (uid: Number, taskId: Number, task: string) => {
     await newTodo.save();
 }
 
-const findTodos = async (uid: Number) => {
+const findTodos = async (uid: number): Promise<Array<ITodo>> => {
     return await Todo.find({ uid });
 };
 
-const deleteTodo = async (uid: Number, taskId: Number) => {
-    try {
-        await Todo.findOneAndDelete({ uid, taskId });
-    } catch (err) {
-        console.log(err);
-    }
+const deleteTodo = async (uid: number, taskId: number): Promise<void> => {
+    await Todo.findOneAndDelete({ uid, taskId });
 };
 
-const deleteAllTodos = async (uid: Number) => {
-    try {
-        await Todo.deleteMany({ uid });
-    } catch (err) {
-        console.log(err);
-    }
+const deleteAllTodos = async (uid: number): Promise<void> => {
+    await Todo.deleteMany({ uid });
 }
 
-export { addTodo, findTodos, deleteTodo, deleteAllTodos }
+const setDone = async (uid: number, taskId: number): Promise<boolean> => {
+    return await Todo.findOne({ uid, taskId }).then((todo): boolean => {
+        if (todo) {
+            todo.done = true;
+            todo.save();
+            return true
+        }
+        return false;
+    });
+}
+
+export { addTodo, findTodos, deleteTodo, deleteAllTodos, setDone }

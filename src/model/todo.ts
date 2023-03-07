@@ -1,7 +1,8 @@
 // @ts-check
-import mongoose from "mongoose";
+import { Schema, model } from "mongoose";
+import ITodo from "../model/ITodo";
 
-const TodoSchmea = new mongoose.Schema({
+const TodoSchmea = new Schema<ITodo>({
     uid: {
         type: Number,
     },
@@ -21,4 +22,4 @@ const TodoSchmea = new mongoose.Schema({
     }
 });
 
-export default mongoose.model("Todo", TodoSchmea);
+export default model("Todo", TodoSchmea);
