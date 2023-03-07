@@ -82,7 +82,7 @@ bot.onText(/Done/, (msg) => {
 });
 
 function sendErrorResponse(chatId: number, err: string) {
-    bot.sendMessage(chatId, 'Coś poszło nie tak');
+    bot.sendMessage(chatId, 'Coś poszło nie tak. ' + err);
     console.log(err);
 }
 

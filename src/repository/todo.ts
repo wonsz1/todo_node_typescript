@@ -1,8 +1,7 @@
 // @ts-check
-import Todo from '../model/todo';
-import ITodo from '../model/ITodo';
+import { Todo, ITodo } from '../model/todo';
 
-const addTodo = async (uid: number, taskId: number, task: string): Promise<void> => {
+const addTodo = async (uid: number, taskId: number, task: string): Promise<ITodo> => {
     const newTodo = new Todo({
         uid,
         taskId,
@@ -10,7 +9,7 @@ const addTodo = async (uid: number, taskId: number, task: string): Promise<void>
         done: false,
         created: new Date()
     });
-    await newTodo.save();
+    return await newTodo.save();
 }
 
 const findTodos = async (uid: number): Promise<Array<ITodo>> => {

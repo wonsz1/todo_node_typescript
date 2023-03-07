@@ -1,13 +1,19 @@
 // @ts-check
 import { Schema, model } from "mongoose";
-import ITodo from "../model/ITodo";
+interface ITodo {
+    uid: number;
+    taskId: number;
+    task: string;
+    done: boolean;
+    created: Date;
+}
 
 const TodoSchmea = new Schema<ITodo>({
     uid: {
-        type: Number,
+        type: Number, required: true
     },
     taskId: {
-        type: Number,
+        type: Number, required: [true, "tesk number required"]
     },
     task: {
         type: String,
@@ -15,11 +21,12 @@ const TodoSchmea = new Schema<ITodo>({
         maxLength: [255, "Za długa treść, podaj max. 255 znaki"]
     },
     done: {
-        type: Boolean,
+        type: Boolean, default: false
     },
     created: {
-        type: Date,
+        type: Date, default: Date.now
     }
 });
 
-export default model("Todo", TodoSchmea);
+const todoModel = model<ITodo>("Todo", TodoSchmea);
+export { todoModel as Todo, ITodo }
